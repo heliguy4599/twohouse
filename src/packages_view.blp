@@ -1,0 +1,67 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PackagesView : Adw.BreakpointBin {
+	width-request: 1;
+	height-request: 1;
+
+	Adw.Breakpoint packages_bpt {
+		condition ("max-width: 550")
+
+		setters {
+			packages_split.collapsed: true;
+		}
+	}
+
+	Adw.NavigationSplitView packages_split {
+		max-sidebar-width: 999999;
+		min-sidebar-width: 300;
+		sidebar-width-fraction: 0.5;
+		sidebar:
+			Adw.NavigationPage packages_navpage {
+				title: "Packages";
+				Adw.ToolbarView packages_tbv {
+					[top]
+					Adw.HeaderBar packages_header {
+						[start]
+						ToggleButton search_button {
+							icon-name: "system-search-symbolic";
+						}
+						[end]
+						MenuButton more_menu {
+							popover:
+								Popover {
+									styles ["menu"]
+									ListBox more_list {
+										ListBoxRow refresh {
+											Label {
+												label: "Refresh";
+											}
+										}
+									}
+								}
+							;
+						}
+					}
+					[top]
+					SearchBar search_bar {
+						search-mode-enabled: bind search_button.active bidirectional;
+						key-capture-widget: packages_tbv;
+						Adw.Clamp {
+							hexpand: true;
+							SearchEntry search_entry {}
+						}
+					}
+					ScrolledWindow packages_scroll {
+						ListBox packages_list {
+							styles ["navigation-sidebar"]
+						}
+					}
+				}
+			}
+		;
+		content:
+			$PropertiesPane properties_pane {}
+		;
+	}
+}

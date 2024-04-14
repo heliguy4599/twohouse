@@ -1,0 +1,49 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $RemotesView : Adw.BreakpointBin {
+	width-request: 1;
+	height-request: 1;
+
+	Adw.Breakpoint {
+		condition ("max-width: 550")
+
+		setters {
+			packages_split.collapsed: true;
+		}
+	}
+
+	Adw.NavigationSplitView packages_split {
+		max-sidebar-width: 999999;
+		min-sidebar-width: 300;
+		sidebar-width-fraction: 0.5;
+		sidebar:
+			Adw.NavigationPage packages_navpage {
+				title: "Remotes";
+				Adw.ToolbarView packages_tbv {
+					[top]
+					Adw.HeaderBar packages_header {
+
+					}
+				}
+			}
+		;
+		content:
+			Adw.NavigationPage properties_navpage {
+				title: "Remotes View";
+				Adw.NavigationView {
+					Adw.NavigationPage {
+						title: "Guh?";
+						can-pop: false;
+						Adw.ToolbarView properties_tvb {
+							[top]
+							Adw.HeaderBar properties_header {
+								
+							}
+						}
+					}
+				}
+			}
+		;
+	}
+}

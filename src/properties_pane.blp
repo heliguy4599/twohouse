@@ -1,0 +1,197 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PropertiesPane : Adw.NavigationPage {
+	title: "Properties View";
+	Adw.NavigationView properties_navview {
+		Adw.NavigationPage properties_navpage {
+			title: "Properties";
+			can-pop: false;
+			Adw.ToolbarView properties_tvb {
+				[top]
+				Adw.HeaderBar properties_header {
+					show-title: false;
+				}
+				ScrolledWindow properties_scroll {
+					Adw.Clamp {
+						Box upper {
+							margin-start: 12;
+							margin-end: 12;
+							margin-bottom: 12;
+							orientation: vertical;
+							halign: fill;
+							hexpand: true;
+
+							Image app_icon {
+								pixel-size: 100;
+								margin-bottom: 18;
+							}
+
+							Label name {
+								styles ["title-1"]
+								selectable: true;
+								wrap: true;
+								wrap-mode: word_char;
+								margin-bottom: 12;
+								margin-start: 6;
+								margin-end: 6;
+							}
+
+							Label description {
+								styles ["title-4"]
+								selectable: true;
+								wrap: true;
+								wrap-mode: word_char;
+								margin-bottom: 18;
+								margin-start: 6;
+								margin-end: 6;
+							}
+
+							Box {
+								halign: center;
+								spacing: 6;
+								Button open_app_button {
+									styles ["suggested-action", "pill"]
+									Adw.ButtonContent {
+										can-shrink: true;
+										label: "Open";
+										icon-name: "media-playback-start-symbolic";
+									}
+								}
+								Button uninstall_button {
+									styles ["pill"]
+									Adw.ButtonContent {
+										can-shrink: true;
+										icon-name: "user-trash-symbolic";
+										label: "";
+									}
+								}
+								margin-bottom: 18;
+							}
+
+							Box {
+								orientation: vertical;
+
+								Adw.PreferencesGroup actions {
+									margin-bottom: 12;
+									Adw.ActionRow details_row {
+										title: "Show Details in Store";
+										[suffix]
+										Image {
+											icon-name: "adw-external-link-symbolic";
+										}
+									}
+									Adw.SwitchRow pin_row {
+										title: "Remove When Unused";
+									}
+									Adw.ActionRow data_row {
+										title: "User Data";
+
+										[suffix]
+										Button {
+											styles["flat"]
+											valign: center;
+											icon-name: "folder-open-symbolic";
+										}
+
+										[suffix]
+										Button {
+											styles["flat"]
+											valign: center;
+											icon-name: "user-trash-symbolic";
+										}
+									}
+									Adw.ExpanderRow version_row {
+										title: "Version";
+										subtitle: "0.5.2";
+										styles ["property"]
+										Adw.SwitchRow mask_row {
+											title: "Recieve Updates";
+										}
+										Adw.ActionRow downgrade_row {
+											title: "Downgrade";
+											Image {
+												icon-name: "go-next-symbolic";
+											}
+										}
+									}
+									Adw.ActionRow installed_size_row {
+										styles ["property"]
+										title: "Installed Size";
+									}
+								}
+								Adw.PreferencesGroup package_info {
+									margin-bottom: 12;
+									title: "Package Information";
+									Adw.ActionRow id_row {
+										styles ["property"]
+										title: "Application ID";
+									}
+									Adw.ActionRow ref_row {
+										styles ["property"]
+										title: "Ref";
+									}
+									Adw.ActionRow arch_row {
+										styles ["property"]
+										title: "Architecture";
+									}
+									Adw.ActionRow branch_row {
+										styles ["property"]
+										title: "Branch";
+									}
+									Adw.ActionRow license_row {
+										styles ["property"]
+										title: "License";
+									}
+								}
+								Adw.PreferencesGroup remote_info {
+									margin-bottom: 12;
+									title: "Installation Information";
+									Adw.ActionRow runtime_row {
+										styles ["property"]
+										title: "Runtime";
+									}
+									Adw.ActionRow sdk_row {
+										styles ["property"]
+										title: "SDK";
+									}
+									Adw.ActionRow origin_row {
+										styles ["property"]
+										title: "Oriogin";
+									}
+									Adw.ActionRow collection_row {
+										styles ["property"]
+										title: "Collection";
+									}
+									Adw.ActionRow installation_row {
+										styles ["property"]
+										title: "Installation";
+									}
+								}
+								Adw.PreferencesGroup commit_info {
+									title: "Commit Information";
+									Adw.ActionRow commit_row {
+										styles ["property"]
+										title: "Commit";
+									}
+									Adw.ActionRow parent_row {
+										styles ["property"]
+										title: "Parent";
+									}
+									Adw.ActionRow subject_row {
+										styles ["property"]
+										title: "Subject";
+									}
+									Adw.ActionRow date_row {
+										styles ["property"]
+										title: "Date";
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
