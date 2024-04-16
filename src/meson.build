@@ -9,6 +9,8 @@ blueprints = custom_target('blueprints',
     'packages_view.blp',
     'remotes_view.blp',
     'properties_pane.blp',
+    'snapshots_view.blp',
+    'user_data_view.blp',
   ),
   output: '.',
   command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
@@ -42,12 +44,14 @@ configure_file(
 twohouse_sources = [
   '__init__.py',
   'main.py',
+  'common_resources.py',
   'window.py',
   'packages_view.py',
   'remotes_view.py',
   'properties_pane.py',
   'flatpak.py',
-  'test.py',
+  'snapshots_view.py',
+  'user_data_view.py',
 ]
 
 install_data(twohouse_sources, install_dir: moduledir)

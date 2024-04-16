@@ -2,13 +2,13 @@ using Gtk 4.0;
 using Adw 1;
 
 template $TwohouseWindow : Adw.ApplicationWindow {
-  default-width: 801;
+  default-width: 866;
   default-height: 500;
-  width-request: 360;
+  width-request: 395;
   height-request: 200;
 
   Adw.Breakpoint outer_bpt {
-    condition ("min-width: 800")
+    condition ("min-width: 865")
 
     setters {
       outer_split.collapsed: false;
@@ -16,64 +16,84 @@ template $TwohouseWindow : Adw.ApplicationWindow {
   }
 
   content:
-    Adw.BreakpointBin {
-      width-request: 1;
-      height-request: 1;
-      Adw.Breakpoint ggg {
-        condition ("min-width: 550")
-      }
-      Adw.NavigationSplitView outer_split {
-        collapsed: true;
-        sidebar:
-          Adw.NavigationPage outer_navpage {
-            title: "Twohouse";
-            Adw.ToolbarView outer_tbv {
-              [top]
-              Adw.HeaderBar outer_header {
-
+    Adw.OverlaySplitView outer_split {
+      collapsed: true;
+      sidebar:
+        Adw.NavigationPage outer_navpage {
+          title: "Twohouse";
+          Adw.ToolbarView outer_tbv {
+            [top]
+            Adw.HeaderBar outer_header {
+              [start]
+              Button side_bar_button {
+                icon-name: "sidebar-show-symbolic";
               }
-              content:
-                ScrolledWindow {
-                  ListBox outer_sidebar_listbox {
-                    styles ["navigation-sidebar"]
-                    Box packages {
-                      margin-top: 12;
-                      margin-bottom: 12;
-                      margin-start: 6;
-                      margin-end: 6;
-                      spacing: 12;
+            }
+            content:
+              ScrolledWindow {
+                ListBox outer_sidebar_listbox {
+                  styles ["navigation-sidebar"]
+                  Box packages {
+                    margin-top: 12;
+                    margin-bottom: 12;
+                    margin-start: 6;
+                    margin-end: 6;
+                    spacing: 12;
 
-                      Label {
-                        label: "Packages";
-                      }
+                    Label {
+                      label: "Packages";
                     }
-                    Box remotes {
-                      margin-top: 12;
-                      margin-bottom: 12;
-                      margin-start: 6;
-                      margin-end: 6;
-                      spacing: 12;
+                  }
+                  Box remotes {
+                    margin-top: 12;
+                    margin-bottom: 12;
+                    margin-start: 6;
+                    margin-end: 6;
+                    spacing: 12;
 
-                      Label {
-                        label: "Remotes";
-                      }
+                    Label {
+                      label: "Remotes";
+                    }
+                  }
+                  Box user_data {
+                    margin-top: 12;
+                    margin-bottom: 12;
+                    margin-start: 6;
+                    margin-end: 6;
+                    spacing: 12;
+
+                    Label {
+                      label: "User Data";
+                    }
+                  }
+                  Box snapshots {
+                    margin-top: 12;
+                    margin-bottom: 12;
+                    margin-start: 6;
+                    margin-end: 6;
+                    spacing: 12;
+
+                    Label {
+                      label: "Snapshots";
+                    }
+                  }
+                  Box {
+                    margin-top: 12;
+                    margin-bottom: 12;
+                    margin-start: 6;
+                    margin-end: 6;
+                    spacing: 12;
+
+                    Label {
+                      label: "Install Apps";
                     }
                   }
                 }
-              ;
-            }
+              }
+            ;
           }
-        ;
-        content:
-          Adw.NavigationPage {
-            title: "Stack Navpage";
-            Stack content_stack {
-              $PackagesView packages_view {}
-              $RemotesView remotes_view {}
-            }
-          }
-        ;
-      }
+        }
+      ;
     }
   ;
 }

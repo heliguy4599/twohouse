@@ -1,5 +1,4 @@
 from gi.repository import Adw, Gtk, GLib, Gio, Pango
-from .test import Test
 
 class shared:
     icon_theme = Gtk.IconTheme.new()
@@ -18,10 +17,10 @@ class PropertiesPane(Adw.NavigationPage):
     description = Gtk.Template.Child()
     open_app_button = Gtk.Template.Child()
     uninstall_button = Gtk.Template.Child()
+    more_menu = Gtk.Template.Child()
 
     # Grab the rows from the blp
     actions = Gtk.Template.Child()
-    details_row = Gtk.Template.Child()
     pin_row = Gtk.Template.Child()
     data_row = Gtk.Template.Child()
     version_row = Gtk.Template.Child()
@@ -57,7 +56,7 @@ class PropertiesPane(Adw.NavigationPage):
             return
 
         self.package = in_package
-        self.properties_navpage.set_title(in_package.info["name"] + " Properties")
+        # self.properties_navpage.set_title(in_package.info["name"] + " Properties")
         self.name.set_label(in_package.info["name"])
         desc = in_package.info["description"]
         self.description.set_label(desc)

@@ -1,6 +1,8 @@
 from gi.repository import Adw, Gtk, GLib, Gio, Pango
 from .properties_pane import PropertiesPane
 from .flatpak import Flatpak
+from .common_resources import CommonResources
+
 import subprocess
 
 class AppRow(Adw.ActionRow):
@@ -14,6 +16,9 @@ class AppRow(Adw.ActionRow):
         self.add_prefix(self.image)
         self.set_title(self.package.info["name"])
         self.set_subtitle(self.package.info["id"])
+        self.select_button = Gtk.CheckButton(visible=False)
+        self.select_button.add_css_class("selection-mode")
+        self.add_suffix(self.select_button)
 
         def done(*args):
             if self.package.get_icon_path():
@@ -47,6 +52,10 @@ class PackagesView(Adw.BreakpointBin):
     refresh = Gtk.Template.Child()
 
     properties_pane = Gtk.Template.Child()
+
+    sidebar_button = Gtk.Template.Child()
+
+    select_button = Gtk.Template.Child()
 
     def filter_func(self, row):
         if self.search_entry.get_text().lower() in row.get_title().lower():
@@ -89,6 +98,11 @@ class PackagesView(Adw.BreakpointBin):
         task.run_in_thread(thread)
 
     def breakpoint_handler(self, *args):
+        if self.properties_pane.package == None:
+            # If the user widens the window to show the properties pane, but no row has been selected, select the first row
+            first = self.packages_list.get_row_at_index(0)
+            self.packages_list.select_row(first)
+            self.show_info(self.packages_list, first)
         self.packages_split.set_show_content(False)
         self.properties_pane.properties_navpage.set_can_pop(False)
 
@@ -98,8 +112,21 @@ class PackagesView(Adw.BreakpointBin):
             case self.refresh:
                 self.generate_list()
 
-    def __init__(self, **kwargs):
+    def sidebar_handler(self, sidebar, *args):
+        self.sidebar_button.set_visible(sidebar.get_collapsed() or not sidebar.get_show_sidebar())
+
+    def select_mode_handler(self, button):
+        row = self.packages_list.get_row_at_index(0)
+        i = 0
+        while row != None:
+            row.select_button.set_visible(button.get_active())
+            i += 1
+            row = self.packages_list.get_row_at_index(i)
+
+    def __init__(self, main_window, **kwargs):
         super().__init__(**kwargs)
+
+        self.main_window = main_window
 
         self.packages_list.connect("row-activated", self.show_info)
 
@@ -109,3 +136,12 @@ class PackagesView(Adw.BreakpointBin):
         self.more_list.connect("row-activated", self.overflow_handler)
 
         self.generate_list()
+
+        # self.sidebar_button.connect("clicked", self.sidebar_handler)
+
+        main_window.outer_split.connect("notify::show-sidebar", self.sidebar_handler)
+        main_window.outer_split.connect("notify::collapsed", self.sidebar_handler)
+        
+        self.sidebar_button.connect("clicked", lambda *_: main_window.outer_split.set_show_sidebar(True))
+
+        self.select_button.connect("clicked", self.select_mode_handler)

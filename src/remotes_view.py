@@ -5,5 +5,5 @@ from gi.repository import Gtk
 class RemotesView(Adw.BreakpointBin):
     __gtype_name__ = 'RemotesView'
 
-    def __init__(self, **kwargs):
+    def __init__(self, main_window, **kwargs):
         super().__init__(**kwargs)

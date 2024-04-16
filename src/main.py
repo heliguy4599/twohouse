@@ -25,6 +25,7 @@ gi.require_version('Adw', '1')
 
 from gi.repository import Gtk, Gio, Adw
 from .window import TwohouseWindow
+from .common_resources import CommonResources
 
 
 class TwohouseApplication(Adw.Application):
@@ -46,6 +47,7 @@ class TwohouseApplication(Adw.Application):
         win = self.props.active_window
         if not win:
             win = TwohouseWindow(application=self)
+        CommonResources.main_window = self.props.active_window
         win.present()
 
     def on_about_action(self, widget, _):

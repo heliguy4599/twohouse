@@ -1,0 +1,81 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $UserDataView : Adw.NavigationPage {
+	title: "User Data";
+
+    Adw.ToolbarView data_tbv {
+        [top]
+        Adw.HeaderBar {
+            [start]
+            ToggleButton search_button {
+                icon-name: "system-search-symbolic";
+            }
+            [end]
+            ToggleButton select_button {
+                icon-name: "selection-mode-symbolic";
+            }
+        }
+        [top]
+        SearchBar search_bar {
+            search-mode-enabled: bind search_button.active bidirectional;
+            key-capture-widget: data_tbv;
+            Adw.Clamp {
+                SearchEntry search_entry {
+                    hexpand: true;
+                }
+            }
+        }
+        content:
+            ScrolledWindow {
+                FlowBox flow_box {
+                    styles ["boxed-list"]
+                    homogeneous: true;
+                    // halign: center;
+                    max-children-per-line: 4;
+                    valign: start;
+                    column-spacing: 6;
+                    row-spacing: 6;
+                    margin-start: 12;
+                    margin-end: 12;
+                    // margin-top: 12;
+                    margin-bottom: 12;
+                    selection-mode: none;
+                }
+            }
+        ;
+
+        [bottom]
+        Revealer {
+            reveal-child: bind select_button.active;
+            transition-type: slide_up;
+            [center]
+            Box {
+                styles ["toolbar"]
+                hexpand: true;
+                homogeneous: true;
+                Button {
+                    styles ["raised"]
+                    Adw.ButtonContent {
+                        icon-name: "selection-mode-symbolic";
+                        label: "Select All";
+                    }
+                }
+                Button {
+                    styles ["raised"]
+                    Adw.ButtonContent {
+                        icon-name: "edit-copy-symbolic";
+                        label: "Copy";
+                    }
+                }
+                Button {
+                    styles ["raised"]
+                    Adw.ButtonContent {
+                        icon-name: "user-trash-symbolic";
+                        label: "Uninstall";
+                    }
+                }
+            }
+        }
+    }
+}

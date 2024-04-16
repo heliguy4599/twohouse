@@ -6,7 +6,7 @@ template $PackagesView : Adw.BreakpointBin {
 	height-request: 1;
 
 	Adw.Breakpoint packages_bpt {
-		condition ("max-width: 550")
+		condition ("max-width: 625")
 
 		setters {
 			packages_split.collapsed: true;
@@ -15,7 +15,7 @@ template $PackagesView : Adw.BreakpointBin {
 
 	Adw.NavigationSplitView packages_split {
 		max-sidebar-width: 999999;
-		min-sidebar-width: 300;
+		// min-sidebar-width: 300;
 		sidebar-width-fraction: 0.5;
 		sidebar:
 			Adw.NavigationPage packages_navpage {
@@ -24,11 +24,29 @@ template $PackagesView : Adw.BreakpointBin {
 					[top]
 					Adw.HeaderBar packages_header {
 						[start]
+						Button sidebar_button {
+							icon-name: "sidebar-show-symbolic";
+						}
+						[start]
 						ToggleButton search_button {
 							icon-name: "system-search-symbolic";
 						}
+						[start]
+						Button filter_button {
+							icon-name: "funnel-symbolic";
+						}
+						[end]
+						Button {
+							icon-name: "view-refresh-symbolic";
+						}
+						[end]
+						ToggleButton select_button {
+							icon-name: "selection-mode-symbolic";
+						}
 						[end]
 						MenuButton more_menu {
+							icon-name: "view-more-symbolic";
+							visible: false;
 							popover:
 								Popover {
 									styles ["menu"]
@@ -48,13 +66,47 @@ template $PackagesView : Adw.BreakpointBin {
 						search-mode-enabled: bind search_button.active bidirectional;
 						key-capture-widget: packages_tbv;
 						Adw.Clamp {
-							hexpand: true;
-							SearchEntry search_entry {}
+							styles ["linked"]
+							SearchEntry search_entry {
+								hexpand: true;
+							}
 						}
 					}
 					ScrolledWindow packages_scroll {
 						ListBox packages_list {
 							styles ["navigation-sidebar"]
+						}
+					}
+					[bottom]
+					Revealer {
+						reveal-child: bind select_button.active;
+						transition-type: slide_up;
+						[center]
+						Box {
+							styles ["toolbar"]
+							hexpand: true;
+							homogeneous: true;
+							Button {
+								styles ["raised"]
+								Adw.ButtonContent {
+									icon-name: "selection-mode-symbolic";
+									label: "Select All";
+								}
+							}
+							Button {
+								styles ["raised"]
+								Adw.ButtonContent {
+									icon-name: "edit-copy-symbolic";
+									label: "Copy";
+								}
+							}
+							Button {
+								styles ["raised"]
+								Adw.ButtonContent {
+									icon-name: "user-trash-symbolic";
+									label: "Uninstall";
+								}
+							}
 						}
 					}
 				}
